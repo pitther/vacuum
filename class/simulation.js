@@ -1,5 +1,5 @@
 class Simulation {
-  constructor(W,H,ROWS, CONS) {
+  constructor(W,H,ROWS,CONS,TYPE) {
     this.statistics = {
       sumEated: 0,
       sumJunk: 0,
@@ -14,9 +14,32 @@ class Simulation {
     this.ROWS = ROWS;
     this.CONS = CONS;
     this.field = [];
+    this.TYPE = TYPE;
     this.createField();
-
     console.log(this.field);
+
+    setTimeout(function(){
+      if (this.TYPE === 'p'){
+        document.getElementById("curr-alg").innerHTML = "P algorytm";
+      } else if (this.TYPE == 'pp'){
+        document.getElementById("curr-alg").innerHTML = "RandomPointer algorytm";
+      } else if (this.TYPE == 'fr'){
+        document.getElementById("curr-alg").innerHTML = "FullRandom algorytm";
+      } else if (this.TYPE == 's'){
+        document.getElementById("curr-alg").innerHTML = "Square algorytm";
+      }
+
+      document.getElementById("prev-iter-num").innerHTML = "Previous simulation (№0)";
+      document.getElementById("prev-robot-score").innerHTML = 0;
+      document.getElementById("prev-junk-left").innerHTML = 0;
+
+      document.getElementById("avg-iter-num").innerHTML = "Average of 0 simulations";
+      document.getElementById("avg-robot-score").innerHTML = 0;
+      document.getElementById("avg-junk-left").innerHTML = 0;
+    }.bind(this),100);
+
+
+
   }
   createField(){
     this.field = [];
@@ -52,7 +75,7 @@ class Simulation {
   addRobot(){
     let x = Math.floor(Math.random() * (this.ROWS));
     let y = Math.floor(Math.random() * (this.CONS));
-    this.robot = new Robot(x,y);
+    this.robot = new Robot(x,y,this.TYPE);
     this.field[x][y] = 2;
   }
   checkFullField(){
@@ -97,6 +120,10 @@ class Simulation {
         p2 = this.calculateCenter(x2,y2);
     line(p1.x,p1.y,p2.x,p2.y);
     stroke(70);
+    noStroke();
+    fill('rgba(50,50,50,0.3)');
+    ellipse(p1.x,p1.y,30);
+    stroke(0);
   }
   drawGrid(){
     let cellW = this.W/this.ROWS;

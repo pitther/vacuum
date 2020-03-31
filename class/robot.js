@@ -1,19 +1,31 @@
 class Robot {
-  constructor(x, y) {
+  constructor(x, y, TYPE) {
       this.x = x;
       this.y = y;
       this.score = 0;
+      this.iterCount = 0;
+      this.type = TYPE;
   }
   iteration(field){
     field[this.x][this.y] = 0;
     let prevPosX = this.x,
         prevPosY = this.y;
 
-    this.algorytmPointed(field);
+    if (this.type === 'p'){
+      this.algorytmRoute(field);
+    } else if (this.type === 'pp'){
+      this.algorytmPointed(field);
+    } else if (this.type === 'fr'){
+      this.algorytmRandom(field);
+    } else if (this.type === 's'){
+      this.algorytmRoute2(field);
+    }
+
     if (field[this.x][this.y] == 1){
       this.score++;
     }
     field[this.x][this.y] = 2;
+    this.iterCount++;
     return {x1: prevPosX,y1:prevPosY,x2: this.x,y2:this.y}
   }
   checkMove(t_,step){
@@ -47,6 +59,55 @@ class Robot {
       }
     } else {
       return false;
+    }
+  }
+  algorytmRoute2(field){
+    const P = {"U":0, "R":1, "D":2, "L":3};
+    Object.freeze(P)
+
+
+    let routeMap = [
+      [P.R, P.R, P.R, P.R, P.D],
+      [P.U, P.U, P.U, P.U, P.D],
+      [P.U, P.R, P.U, P.L, P.D],
+      [P.U, P.U, P.U, P.U, P.D],
+      [P.U, P.L, P.L, P.L, P.L],
+    ];
+
+    if (this.checkMove(0,false) && field[this.x][this.y-1] === 1){
+      this.checkMove(0,true);
+    } else if (this.checkMove(1,false) && field[this.x+1][this.y] === 1){
+      this.checkMove(1,true);
+    } else if (this.checkMove(2,false) && field[this.x][this.y+1] === 1){
+      this.checkMove(2,true);
+    } else if (this.checkMove(3,false) && field[this.x-1][this.y] === 1){
+      this.checkMove(3,true);
+    } else {
+      this.checkMove(routeMap[this.y][this.x],true);
+    }
+  }
+  algorytmRoute(field){
+    const P = {"U":0, "R":1, "D":2, "L":3};
+    Object.freeze(P)
+
+    let routeMap = [
+      [P.R, P.D, P.L, P.L, P.L],
+      [P.R, P.D, P.L, P.U, P.L],
+      [P.R, P.D, P.L, P.U, P.L],
+      [P.R, P.D, P.L, P.U, P.L],
+      [P.R, P.R, P.R, P.U, P.L],
+    ];
+
+    if (this.checkMove(0,false) && field[this.x][this.y-1] === 1){
+      this.checkMove(0,true);
+    } else if (this.checkMove(1,false) && field[this.x+1][this.y] === 1){
+      this.checkMove(1,true);
+    } else if (this.checkMove(2,false) && field[this.x][this.y+1] === 1){
+      this.checkMove(2,true);
+    } else if (this.checkMove(3,false) && field[this.x-1][this.y] === 1){
+      this.checkMove(3,true);
+    } else {
+      this.checkMove(routeMap[this.y][this.x],true);
     }
   }
   algorytmRandom(field){

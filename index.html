@@ -70,16 +70,28 @@
                 <li class="list-group-item">
                   FPS
                   <div class="range range-success">
-                    <input type="range" name="range" min="0" max="60" value="15" onmousemove="rangeSuccess.value=value;settings_set('fps')">
+                    <input type="range" name="range" min="1" max="60" value="15" onmousemove="rangeSuccess.value=value;settings_set('fps')">
                     <output id="rangeSuccess">15</output>
                   </div>
                 </li>
               </ul>
             </div>
+
           </div>
         </div>
+        <button type="button" class="btn btn-success" onclick="settings_set('p')">P-algorithm</button>
+        <button type="button" class="btn btn-warning" onclick="settings_set('s')">Square-algorithm </button>
+        <button type="button" class="btn btn-info" onclick="settings_set('pp')">RandomPointer-algorithm</button>
+        <button type="button" class="btn btn-danger" onclick="settings_set('fr')">FullRandom-algorithm</button>
+          <p></p>
+          <p></p><i>P AVG x2000 = 4.7 junk</i>
+          <p></p><i>Square AVG x2000 = 5.19 junk</i>
+          <p></p><i>RandomPointerm AVG x2000 = 6.53 junk</i>
+          <p></p><i>FullRandom AVG x2000 = 16.95 junk</i>
+
       </div>
       <div class="container">
+
         <h2></h2>
         <table class="table" id="table-width-fix">
           <thead>
@@ -98,6 +110,9 @@
               <!-- Default panel contents -->
               <!-- List group -->
               <ul class="list-group">
+                <li class="list-group-item">
+                  <h3 id="curr-alg">P-algprytm</h3>
+                </li>
                 <li class="list-group-item">
                   <h4 id="curr-iter-num">Current simulation ()</h4>
                 </li>
